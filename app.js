@@ -5,9 +5,9 @@ const app = express();
 
 // Create a Redis client
 const redisClient = new Redis({
-  // host: process.env.REDIS_HOST, // Replace with the name of the Redis service
-  host: "redis-service.app-db", // ESTO ES EL NOMBRE DEL SERVICIO DE REDIS (PUNTO) EL NAMESPACE DONDE ESTA EL SERVICIO. POR AHORA DEJEMOSLO ASI PERO LUEGO HAY Q HACERLO DE LA MANERA Q LO HACE EL RENGLON DE ARRIBA, A TRAVES DE UNA VARIABLE DE ENTORNO DEL SISTEMA OPERATIVO
-  port: 6379, // Replace with the Redis port if it's different
+    host: process.env.REDIS_HOST, // Replace with the name of the Redis service
+ // host: "redis-service.app-db", // ESTO ES EL NOMBRE DEL SERVICIO DE REDIS (PUNTO) EL NAMESPACE DONDE ESTA EL SERVICIO. POR AHORA DEJEMOSLO ASI PERO LUEGO HAY Q HACERLO DE LA MANERA Q LO HACE EL RENGLON DE ARRIBA, A TRAVES DE UNA VARIABLE DE ENTORNO DEL SISTEMA OPERATIVO
+    port: 6379, // Replace with the Redis port if it's different
 });
 
 // Retrieve the visitor count from Redis
