@@ -1,6 +1,7 @@
-environment {
+pipeline {
 
-        APP_NAME = "app-juaco-back"
+    environment {
+        APP_NAME = "app-juaco-backend"
         USER_APP = "joaquinsolari"
         PASS = "docker1608"
         GIT_REPO_APP= "https://github.com/joaquin-solari/app-back-repo"
@@ -81,7 +82,7 @@ spec:
 
         stage('Clonar repo Infra') {
             steps {
-                git branch: 'main', changelog: false, poll: false, url: "$GIT_REPO_INFRA"
+                git branch: 'main', changelog: false, poll: false, credentialsId: 'jenkins', url: "$GIT_REPO_INFRA"
             }
         } 
         
@@ -101,10 +102,11 @@ spec:
 
              sh "git branch --set-upstream-to=origin/main main"
              sh "git add ."
-             sh "git commit -m 'Actualización a ${BUILD_NUMBER} en Deployment del Back en Dev'"
-            
+             sh "git commit -m 'Actualización a ${BUILD_NUMBER} en Deployment del back en Dev'"
+             withCredentials([usernamePassword(credentialsId: 'jenkins', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) 
+             {
              sh "git push  https://$GIT_USERNAME:$GIT_PASSWORD@github.com/joaquin-solari/infra-repo.git"
-              
+             } 
           }
         }
 
@@ -128,8 +130,10 @@ spec:
              sh "git branch --set-upstream-to=origin/main main"
              sh "git add ."
              sh "git commit -m 'Actualización a ${BUILD_NUMBER} en Deployment del back en Stage'"
-          
+             withCredentials([usernamePassword(credentialsId: 'jenkins', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) 
+             {
              sh "git push  https://$GIT_USERNAME:$GIT_PASSWORD@github.com/joaquin-solari/infra-repo.git"
+             } 
           }
         }
 
@@ -146,16 +150,17 @@ spec:
         } 
 
         stage ('Pushear cambios Prod'){
-          steps{
+           steps{
              sh "git config --global user.email joaquin.solari@sendati.com" 
              sh "git config --global user.name joaquin-solari"
 
              sh "git branch --set-upstream-to=origin/main main"
              sh "git add ."
              sh "git commit -m 'Actualización a ${BUILD_NUMBER} en Deployment del back en Prod'"
-            
+             withCredentials([usernamePassword(credentialsId: 'jenkins', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) 
+             {
              sh "git push  https://$GIT_USERNAME:$GIT_PASSWORD@github.com/joaquin-solari/infra-repo.git"
-             
+             } 
           }
         }
 
