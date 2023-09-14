@@ -1,7 +1,8 @@
 pipeline {
 
     environment {
-        APP_NAME = "app-juaco-backend"
+         APP_NAME = "app-juaco-backend"
+
         USER_APP = "joaquinsolari"
         PASS = "docker1608"
         GIT_REPO_APP= "https://github.com/joaquin-solari/app-back-repo"
@@ -102,7 +103,7 @@ spec:
 
              sh "git branch --set-upstream-to=origin/main main"
              sh "git add ."
-             sh "git commit -m 'Actualización a ${BUILD_NUMBER} en Deployment del back en Dev'"
+             sh "git commit -m 'Actualización a ${BUILD_NUMBER} en Deployment en Dev del back'"
              withCredentials([usernamePassword(credentialsId: 'jenkins', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) 
              {
              sh "git pull  https://$GIT_USERNAME:$GIT_PASSWORD@github.com/joaquin-solari/infra-repo.git"
@@ -116,7 +117,7 @@ spec:
                 expression{ currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
               }
             steps{
-               dir("backend/environments") {
+               dir("frontend/environments") {
                 sh"sed -i 's|tag:.*|tag: ${BUILD_NUMBER}|g' values-stage.yaml"
                 }
             
@@ -130,7 +131,7 @@ spec:
 
              sh "git branch --set-upstream-to=origin/main main"
              sh "git add ."
-             sh "git commit -m 'Actualización a ${BUILD_NUMBER} en Deployment del back en Stage'"
+             sh "git commit -m 'Actualización a ${BUILD_NUMBER} en Deployment en Stage del back'"
              withCredentials([usernamePassword(credentialsId: 'jenkins', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) 
              {
              sh "git pull  https://$GIT_USERNAME:$GIT_PASSWORD@github.com/joaquin-solari/infra-repo.git"
@@ -144,7 +145,7 @@ spec:
                 expression{ currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
              }
             steps{
-               dir("backend/environments") {
+               dir("frontend/environments") {
                 sh"sed -i 's|tag:.*|tag: ${BUILD_NUMBER}|g' values-prod.yaml"
                 }
             
@@ -158,7 +159,7 @@ spec:
 
              sh "git branch --set-upstream-to=origin/main main"
              sh "git add ."
-             sh "git commit -m 'Actualización a ${BUILD_NUMBER} en Deployment del back en Prod'"
+             sh "git commit -m 'Actualización a ${BUILD_NUMBER} en Deployment en Prod del back'"
              withCredentials([usernamePassword(credentialsId: 'jenkins', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) 
              {
              sh "git pull  https://$GIT_USERNAME:$GIT_PASSWORD@github.com/joaquin-solari/infra-repo.git"
