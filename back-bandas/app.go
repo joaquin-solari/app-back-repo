@@ -41,8 +41,8 @@ func main() {
 		}
 	})
 
-	fmt.Println("Servidor escuchando en el puerto 8080...")
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	fmt.Println("Servidor escuchando en el puerto 3001...")
+	if err := http.ListenAndServe(":3001", nil); err != nil {
 		panic(err)
 	}
 }
